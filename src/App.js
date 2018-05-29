@@ -46,7 +46,13 @@ class App extends Component {
       .onSnapshot(m => {
         this.setState({ messages: m.docs.map(d => d.data()) });
       });
+    this._getUri();
   }
+
+  _getUri = async () => {
+    const uri = await backend.getUri();
+    this.setState({ uri });
+  };
 
   _handleAddMessage = async e => {
     e.preventDefault();
@@ -70,13 +76,13 @@ class App extends Component {
 
   render() {
     return (
-      <di className="App">
+      <div className="App">
         <div className="App-header-container">
           <header className="App-header">
             <h1 className="App-title">rawtx lightning chat</h1>
           </header>
         </div>
-        <di className="App-container">
+        <div className="App-container">
           <div className="App-moniker">Your nickname is: {moniker}</div>
           <div className="App-messages">
             {this.state.messages &&
@@ -87,9 +93,17 @@ class App extends Component {
                   {m.nickname == moniker ? (
                     <span>
                       <br />
+                      <b>Your payment request:</b>
+                      <br />
                       <a href={"lightning:" + m.invoice}>{m.invoice}</a>
                       <br />
                       <QRCode value={m.invoice} size={256} />
+                      <br />
+                      <b>The node's address is:</b>
+                      <br />
+                      {this.state.uri}
+                      <br />
+                      <QRCode value={this.state.uri || ""} />
                     </span>
                   ) : (
                     ""
@@ -112,8 +126,8 @@ class App extends Component {
               <input type="submit" value="Send message" />
             </div>
           </form>
-        </di>
-      </di>
+        </div>
+      </div>
     );
   }
 }
