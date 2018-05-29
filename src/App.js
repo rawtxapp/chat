@@ -79,7 +79,7 @@ class App extends Component {
       <div className="App">
         <div className="App-header-container">
           <header className="App-header">
-            <h1 className="App-title">rawtx lightning chat</h1>
+            <h1 className="App-title">rawtx lightning chat (testnet)</h1>
           </header>
         </div>
         <div className="App-container">
