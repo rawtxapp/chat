@@ -1,6 +1,6 @@
 export default class ChatBackend {
   constructor() {
-    this.endpoint = "http://localhost:8080";
+    this.endpoint = "http://chat-backend.rawtx.com:9090";
   }
 
   url = path => {
