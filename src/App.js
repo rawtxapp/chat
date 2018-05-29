@@ -1,19 +1,119 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import generateName from "sillyname";
+import ChatBackend from "./ChatBackend";
+import QRCode from "qrcode.react";
+
 import "./App.css";
 
+const config = {
+  apiKey: "AIzaSyAwgkFy3Ywl1lwHZ2w2WAZc1VUjHMLDNxg",
+  authDomain: "rawtxapp-b78be.firebaseapp.com",
+  databaseURL: "https://rawtxapp-b78be.firebaseio.com",
+  projectId: "rawtxapp-b78be",
+  storageBucket: "rawtxapp-b78be.appspot.com",
+  messagingSenderId: "99752098768"
+};
+
+firebase.initializeApp(config);
+const db = firebase.firestore();
+const settings = { timestampsInSnapshots: true };
+db.settings(settings);
+
+const messagesRef = db.collection("messages");
+
+let moniker;
+if (localStorage && localStorage.getItem("chatMoniker")) {
+  moniker = localStorage.getItem("chatMoniker");
+} else {
+  moniker = generateName();
+  localStorage.setItem("chatMoniker", moniker);
+}
+
+const backend = new ChatBackend();
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { message: "" };
+  }
+
+  componentDidMount() {
+    messagesRef
+      .orderBy("created_time")
+      .limit(100)
+      .onSnapshot(m => {
+        this.setState({ messages: m.docs.map(d => d.data()) });
+      });
+  }
+
+  _handleAddMessage = async e => {
+    e.preventDefault();
+    const memo = this.state.message.substr(0, 100);
+    let invoice = "";
+    try {
+      invoice = await backend.getInvoice(memo);
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+    messagesRef.add({
+      created_time: Date.now(),
+      invoice: invoice.pay_req,
+      message: this.state.message,
+      nickname: moniker,
+      settled: false
+    });
+    this.setState({ message: "" });
+  };
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <di className="App">
+        <div className="App-header-container">
+          <header className="App-header">
+            <h1 className="App-title">rawtx lightning chat</h1>
+          </header>
+        </div>
+        <di className="App-container">
+          <div className="App-moniker">Your nickname is: {moniker}</div>
+          <div className="App-messages">
+            {this.state.messages &&
+              this.state.messages.map((m, i) => (
+                <p key={i}>
+                  <b>{m.nickname}: </b>
+                  {m.settled ? m.message : <i>Awaiting payment</i>}
+                  {m.nickname == moniker ? (
+                    <span>
+                      <br />
+                      <a href={"lightning:" + m.invoice}>{m.invoice}</a>
+                      <br />
+                      <QRCode value={m.invoice} size={256} />
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                </p>
+              ))}
+          </div>
+          <form onSubmit={this._handleAddMessage}>
+            <div className="App-message-entry">
+              <input
+                type="text"
+                value={this.state.message}
+                onChange={event =>
+                  this.setState({ message: event.target.value })
+                }
+                placeholder="Message..."
+              />
+            </div>
+            <div className="App-submit-button">
+              <input type="submit" value="Send message" />
+            </div>
+          </form>
+        </di>
+      </di>
     );
   }
 }

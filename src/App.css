@@ -1,28 +1,69 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
+  background-color: #03A9F4;
+  padding: 10px;
   color: white;
 }
 
+.App-header-container {
+  flex: 0 1 auto;
+}
+
 .App-title {
-  font-size: 1.5em;
+  font-size: 26px;
 }
 
 .App-intro {
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.App-container {
+  flex: 1 1 auto;
+  flex-flow: column;
+  display: flex;
+}
+
+.App-messages {
+  flex: 20 1 auto;
+  background-color: white;
+  border-bottom: 2px solid gray;
+  padding: 20px;
+}
+
+.App-moniker {
+  padding: 20px;
+}
+
+.App-message-entry {
+  padding: 20px;
+  padding-bottom: 0;
+  display: flex;
+}
+
+.App-message-entry input {
+  border: 1px solid #ced4da;
+  flex: 1 1 auto;
+  border-radius: 8px;
+  font-size: 20px;
+}
+
+.App-submit-button {
+  padding: 20px;
+  display: flex;
+}
+
+.App-submit-button input {
+  flex: 1 1 auto;
+  height: 40px;
+  font-size: 24px;
+  background-color: #007bff;
+  border-color: #007bff;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: white;
 }
