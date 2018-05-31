@@ -90,7 +90,7 @@ class App extends Component {
                 <p key={i}>
                   <b>{m.nickname}: </b>
                   {m.settled ? m.message : <i>Awaiting payment</i>}
-                  {m.nickname == moniker ? (
+                  {m.nickname == moniker && !m.settled ? (
                     <span>
                       <br />
                       <b>Your payment request:</b>
