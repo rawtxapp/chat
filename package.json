@@ -2,7 +2,7 @@
   "name": "chat",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://rawtxapp.github.io/chat",
+  "homepage": "https://chat.rawtx.com/",
   "dependencies": {
     "firebase": "^5.0.4",
     "qrcode.react": "^0.8.0",
