@@ -1,6 +1,6 @@
 export default class ChatBackend {
   constructor() {
-    if (process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV && process.env.NODE_ENV === "development") {
       this.endpoint = "http://localhost:8080";
     } else {
       this.endpoint = "https://chat-backend.rawtx.com:9090";
