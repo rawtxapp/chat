@@ -111,6 +111,8 @@ class App extends Component {
                 </p>
               ))}
           </div>
+        </div>
+        <div>
           <form onSubmit={this._handleAddMessage}>
             <div className="App-message-entry">
               <input
