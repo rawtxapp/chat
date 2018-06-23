@@ -6,6 +6,7 @@ import ChatBackend from "./ChatBackend";
 import QRCode from "qrcode.react";
 
 import "./App.css";
+import Micro from "./Micro";
 
 const config = {
   apiKey: "AIzaSyAwgkFy3Ywl1lwHZ2w2WAZc1VUjHMLDNxg",
@@ -32,6 +33,7 @@ if (localStorage && localStorage.getItem("chatMoniker")) {
 }
 
 const backend = new ChatBackend();
+const micro = new Micro();
 
 class App extends Component {
   constructor(props) {
@@ -47,6 +49,7 @@ class App extends Component {
         this.setState({ messages: m.docs.map(d => d.data()) });
       });
     this._getUri();
+    micro.init();
   }
 
   _getUri = async () => {
