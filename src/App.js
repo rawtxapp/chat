@@ -88,31 +88,33 @@ class App extends Component {
         <div className="App-container">
           <div className="App-moniker">Your nickname is: {moniker}</div>
           <div className="App-messages">
-            {this.state.messages &&
-              this.state.messages.map((m, i) => (
-                <p key={i}>
-                  <b>{m.nickname}: </b>
-                  {m.settled ? m.message : <i>Awaiting payment</i>}
-                  {m.nickname == moniker && !m.settled ? (
-                    <span>
-                      <br />
-                      <b>Your payment request:</b>
-                      <br />
-                      <a href={"lightning:" + m.invoice}>{m.invoice}</a>
-                      <br />
-                      <QRCode value={m.invoice} size={256} />
-                      <br />
-                      <b>The node's address is:</b>
-                      <br />
-                      {this.state.uri}
-                      <br />
-                      <QRCode value={this.state.uri || ""} />
-                    </span>
-                  ) : (
-                    ""
-                  )}
-                </p>
-              ))}
+            <div>
+              {this.state.messages &&
+                this.state.messages.map((m, i) => (
+                  <p key={i}>
+                    <b>{m.nickname}: </b>
+                    {m.settled ? m.message : <i>Awaiting payment</i>}
+                    {m.nickname == moniker && !m.settled ? (
+                      <span>
+                        <br />
+                        <b>Your payment request:</b>
+                        <br />
+                        <a href={"lightning:" + m.invoice}>{m.invoice}</a>
+                        <br />
+                        <QRCode value={m.invoice} size={256} />
+                        <br />
+                        <b>The node's address is:</b>
+                        <br />
+                        {this.state.uri}
+                        <br />
+                        <QRCode value={this.state.uri || ""} />
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                  </p>
+                ))}
+            </div>
           </div>
         </div>
         <div>

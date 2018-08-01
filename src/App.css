@@ -29,11 +29,13 @@
 }
 
 .App-messages {
+  display: flex;
   flex: 20 1 auto;
+  flex-direction: column-reverse;
   background-color: white;
   border-bottom: 2px solid gray;
   padding: 20px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .App-moniker {
