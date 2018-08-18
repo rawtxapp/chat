@@ -80,11 +80,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header-container">
-          <header className="App-header">
-            <h1 className="App-title">rawtx lightning chat (testnet)</h1>
-          </header>
-        </div>
         <div className="App-container">
           <div className="App-moniker">Your nickname is: {moniker}</div>
           <div className="App-messages">
