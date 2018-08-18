@@ -60,6 +60,9 @@ class App extends Component {
   _handleAddMessage = async e => {
     e.preventDefault();
     const memo = this.state.message.substr(0, 100);
+    if (memo.trim() == "") {
+      return;
+    }
     let invoice = "";
     try {
       invoice = await backend.getInvoice(memo);
