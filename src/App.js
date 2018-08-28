@@ -43,10 +43,10 @@ class App extends Component {
 
   componentDidMount() {
     messagesRef
-      .orderBy("created_time")
+      .orderBy("created_time", "desc")
       .limit(100)
       .onSnapshot(m => {
-        this.setState({ messages: m.docs.map(d => d.data()) });
+        this.setState({ messages: m.docs.reverse().map(d => d.data()) });
       });
     this._getUri();
     micro.init();
@@ -70,13 +70,25 @@ class App extends Component {
       console.error(err);
       return;
     }
-    messagesRef.add({
-      created_time: Date.now(),
-      invoice: invoice.pay_req,
-      message: this.state.message,
-      nickname: moniker,
-      settled: false
-    });
+
+    messagesRef
+      .add({
+        created_time: Date.now(),
+        invoice: invoice.pay_req,
+        message: this.state.message,
+        nickname: moniker,
+        settled: false,
+        withMicro: micro.canHandleWithMicro(100)
+      })
+      .then(() => {
+        // in theory it would be nice to call handleWithMicro before adding it
+        // since it would happen in parallel, but the problem is lightning
+        // payments can be faster than inserting into firebase db, so what ends
+        // up happening is that the backend detects successful payments, tries
+        // to update firebase that it's paid, but the entry isn't written yet.
+        // this could/should be solved with infra change, for now, this okay.
+        micro.handleWithMicro(invoice.pay_req, 100);
+      });
     this.setState({ message: "" });
   };
 
@@ -92,7 +104,7 @@ class App extends Component {
                   <p key={i}>
                     <b>{m.nickname}: </b>
                     {m.settled ? m.message : <i>Awaiting payment</i>}
-                    {m.nickname == moniker && !m.settled ? (
+                    {m.nickname == moniker && !m.settled && !m.withMicro ? (
                       <span>
                         <br />
                         <b>Your payment request:</b>
@@ -106,6 +118,14 @@ class App extends Component {
                         {this.state.uri}
                         <br />
                         <QRCode value={this.state.uri || ""} />
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                    {m.nickname == moniker && m.withMicro && !m.settled ? (
+                      <span>
+                        <br />
+                        Settling payment with micro
                       </span>
                     ) : (
                       ""
