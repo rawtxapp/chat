@@ -1,28 +1,10 @@
 import React, { Component } from "react";
-import firebase from "firebase/app";
-import "firebase/firestore";
 import generateName from "sillyname";
 import ChatBackend from "./ChatBackend";
 import QRCode from "qrcode.react";
 
 import "./App.css";
 import Micro from "./Micro";
-
-const config = {
-  apiKey: "AIzaSyAwgkFy3Ywl1lwHZ2w2WAZc1VUjHMLDNxg",
-  authDomain: "rawtxapp-b78be.firebaseapp.com",
-  databaseURL: "https://rawtxapp-b78be.firebaseio.com",
-  projectId: "rawtxapp-b78be",
-  storageBucket: "rawtxapp-b78be.appspot.com",
-  messagingSenderId: "99752098768"
-};
-
-firebase.initializeApp(config);
-const db = firebase.firestore();
-const settings = { timestampsInSnapshots: true };
-db.settings(settings);
-
-const messagesRef = db.collection("messages");
 
 let moniker;
 if (localStorage && localStorage.getItem("chatMoniker")) {
@@ -42,12 +24,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    messagesRef
-      .orderBy("created_time", "desc")
-      .limit(100)
-      .onSnapshot(m => {
-        this.setState({ messages: m.docs.reverse().map(d => d.data()) });
-      });
     this._getUri();
     micro.init();
   }
@@ -71,24 +47,6 @@ class App extends Component {
       return;
     }
 
-    messagesRef
-      .add({
-        created_time: Date.now(),
-        invoice: invoice.pay_req,
-        message: this.state.message,
-        nickname: moniker,
-        settled: false,
-        withMicro: micro.canHandleWithMicro(100)
-      })
-      .then(() => {
-        // in theory it would be nice to call handleWithMicro before adding it
-        // since it would happen in parallel, but the problem is lightning
-        // payments can be faster than inserting into firebase db, so what ends
-        // up happening is that the backend detects successful payments, tries
-        // to update firebase that it's paid, but the entry isn't written yet.
-        // this could/should be solved with infra change, for now, this okay.
-        micro.handleWithMicro(invoice.pay_req, 100);
-      });
     this.setState({ message: "" });
   };
 
