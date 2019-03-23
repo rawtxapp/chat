@@ -6,9 +6,9 @@ import QRCode from "qrcode.react";
 import "./App.css";
 import Micro from "./Micro";
 
-let moniker;
+let moniker = "";
 if (localStorage && localStorage.getItem("chatMoniker")) {
-  moniker = localStorage.getItem("chatMoniker");
+  moniker = localStorage.getItem("chatMoniker") || "";
 } else {
   moniker = generateName();
   localStorage.setItem("chatMoniker", moniker);
@@ -17,8 +17,26 @@ if (localStorage && localStorage.getItem("chatMoniker")) {
 const backend = new ChatBackend();
 const micro = new Micro();
 
-class App extends Component {
-  constructor(props) {
+export interface Props {
+
+}
+
+interface Message {
+  nickname: string;
+  settled: boolean;
+  message: string;
+  invoice: string;
+  withMicro: boolean;
+}
+
+interface State {
+  message: string;
+  uri?: string;
+  messages?: Message[];
+}
+
+class App extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = { message: "" };
   }
@@ -95,18 +113,21 @@ class App extends Component {
         </div>
         <div>
           <form onSubmit={this._handleAddMessage}>
-            <div className="App-message-entry">
-              <input
-                type="text"
-                value={this.state.message}
-                onChange={event =>
-                  this.setState({ message: event.target.value })
-                }
-                placeholder="Message..."
-              />
-            </div>
-            <div className="App-submit-button">
-              <input type="submit" value="Send message" />
+            <div className="message-form">
+              <div className="App-message-entry">
+                <input
+                  type="text"
+                  value={this.state.message}
+                  onChange={event =>
+                    this.setState({ message: event.target.value })
+                  }
+                  placeholder="Message..."
+                  className="pa3 ma2 w-100"
+                />
+              </div>
+              <div className="App-submit-button ma3">
+                <input type="submit" value="Send" />
+              </div>
             </div>
           </form>
         </div>
