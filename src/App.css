@@ -38,8 +38,7 @@
 }
 
 .App-moniker {
-  padding: 20px;
-  border-bottom: 2px solid gray;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
 .message-form {
@@ -67,4 +66,43 @@
   border: 1px solid transparent;
   border-radius: 8px;
   color: white;
+}
+
+.logo-text {
+  color: #fe5f55;
+}
+
+.slogan-text {
+  color: #2b4162;
+}
+
+.dot {
+  background-color: #ef1062;
+  height: 0.8em;
+  width: 0.8em;
+  border-radius: 1em;
+  animation: light 0.5s infinite;
+  animation-direction: alternate;
+}
+
+.green-dot {
+  background-color: #3AB795;
+}
+
+.green-text {
+  color: #3AB795;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+}
+
+@keyframes light {
+  from {
+    opacity:0
+  }
+  to {
+    opacity:100
+  }
 }

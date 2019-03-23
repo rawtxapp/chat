@@ -72,7 +72,26 @@ class App extends Component<Props, State> {
     return (
       <div className="App">
         <div className="App-container">
-          <div className="App-moniker">Your nickname is: {moniker}</div>
+          <div className="App-moniker pa3 sans-serif">
+            <span className="f3 sans-serif logo-text b">rawtx chat</span>
+            <span className="logo-text f4 pl2">
+              - lightning enabled chat app.
+            </span>
+            <span className="slogan-text f4 pt2 pl2 b">
+              10 satoshis per message.
+            </span>
+            <div className="slogan-text f4 pt2">
+              Your nickname is: {moniker}
+            </div>
+            <div className="counter ma1 mt2 pa1 pb0 ml0">
+              <div className="dot"></div>
+              <div className="ml2 logo-text f4 b">0 boltheads online right now</div>
+            </div>
+            <div className="counter pa1 ml0">
+              <div className="dot green-dot"></div>
+              <div className="ml2 logo-text f4 b green-text">0 satoshis spent</div>
+            </div>
+          </div>
           <div className="App-messages">
             <div>
               {this.state.messages &&
