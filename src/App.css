@@ -32,8 +32,7 @@
   display: flex;
   flex: 20 1 auto;
   flex-direction: column-reverse;
-  background-color: white;
-  border-bottom: 2px solid gray;
+  background-color: #f5f0f6;
   padding: 20px;
   overflow-y: scroll;
 }
@@ -43,10 +42,14 @@
   border-bottom: 2px solid gray;
 }
 
-.App-message-entry {
-  padding: 20px;
-  padding-bottom: 0;
+.message-form {
+  flex-direction: row;
   display: flex;
+  flex: 1;
+}
+
+.App-message-entry {
+  flex: 1;
 }
 
 .App-message-entry input {
@@ -57,12 +60,9 @@
 }
 
 .App-submit-button {
-  padding: 20px;
-  display: flex;
 }
 
 .App-submit-button input {
-  flex: 1 1 auto;
   height: 40px;
   font-size: 24px;
   background-color: #007bff;
