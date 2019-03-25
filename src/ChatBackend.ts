@@ -1,15 +1,18 @@
+import io from 'socket.io-client';
+
 export default class ChatBackend {
   endpoint: string;
+  socket: SocketIOClient.Socket;
   constructor() {
     if (
       process.env.NODE_ENV &&
-      process.env.NODE_ENV === "development" &&
-      false
+      process.env.NODE_ENV === "development"
     ) {
-      this.endpoint = "http://localhost:8080";
+      this.endpoint = "http://localhost:3001";
     } else {
-      this.endpoint = "http://chat-backend.rawtx.com:9090";
+      this.endpoint = "https://chat-backend.rawtx.com:9090";
     }
+    this.socket = io(this.endpoint);
   }
 
   url = path => {
