@@ -9,6 +9,7 @@
     "@types/qrcode.react": "^0.8.2",
     "@types/react": "^16.8.8",
     "@types/react-dom": "^16.8.3",
+    "@types/socket.io-client": "^1.4.32",
     "qrcode.react": "^0.8.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
