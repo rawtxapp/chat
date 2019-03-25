@@ -33,6 +33,10 @@ export default class ChatBackend {
     this.socket.on('newMessage', fn);
   }
 
+  onInitialMessages = (fn:Function) => {
+    this.socket.on('initialMessages', fn);
+  }
+
   newMessage = (msg: Message) => {
     this.socket.emit('newMessage', msg);
   }

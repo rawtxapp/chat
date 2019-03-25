@@ -40,6 +40,7 @@ class App extends Component<Props, State> {
     backend.onUpdateBoltheadCounter((c) => this.setState({ boltheadCounter: c }));
     backend.onNewMessage((msg: Message) =>
       this.setState({ messages: [...this.state.messages, msg] }));
+    backend.onInitialMessages((msg:Message[])=> this.setState({messages:msg}));
     micro.init();
   }
 
