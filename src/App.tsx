@@ -33,6 +33,7 @@ interface State {
   message: string;
   uri?: string;
   messages?: Message[];
+  boltheadCounter?: number;
 }
 
 class App extends Component<Props, State> {
@@ -42,7 +43,8 @@ class App extends Component<Props, State> {
   }
 
   componentDidMount() {
-    this._getUri();
+    // this._getUri();
+    backend.onUpdateBoltheadCounter((c)=>this.setState({boltheadCounter: c}));
     micro.init();
   }
 
@@ -85,7 +87,9 @@ class App extends Component<Props, State> {
             </div>
             <div className="counter ma1 mt2 pa1 pb0 ml0">
               <div className="dot"></div>
-              <div className="ml2 logo-text f4 b">0 boltheads online right now</div>
+              <div className="ml2 logo-text f4 b">
+                {this.state.boltheadCounter || 0} boltheads online right now
+              </div>
             </div>
             <div className="counter pa1 ml0">
               <div className="dot green-dot"></div>

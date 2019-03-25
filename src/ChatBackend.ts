@@ -24,6 +24,10 @@ export default class ChatBackend {
     return response.json();
   };
 
+  onUpdateBoltheadCounter = (fn: Function) => {
+    this.socket.on('updateBoltheadCounter', fn);
+  }
+
   getUri = async () => {
     const response = await fetch(this.url("pubkey"));
     const json = await response.json();
