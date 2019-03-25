@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import Message from './Message';
 
 export default class ChatBackend {
   endpoint: string;
@@ -26,6 +27,14 @@ export default class ChatBackend {
 
   onUpdateBoltheadCounter = (fn: Function) => {
     this.socket.on('updateBoltheadCounter', fn);
+  }
+
+  onNewMessage = (fn:Function) => {
+    this.socket.on('newMessage', fn);
+  }
+
+  newMessage = (msg: Message) => {
+    this.socket.emit('newMessage', msg);
   }
 
   getUri = async () => {

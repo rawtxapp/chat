@@ -5,6 +5,7 @@ import QRCode from "qrcode.react";
 
 import "./App.css";
 import Micro from "./Micro";
+import Message from "./Message";
 
 let moniker = "";
 if (localStorage && localStorage.getItem("chatMoniker")) {
@@ -21,30 +22,24 @@ export interface Props {
 
 }
 
-interface Message {
-  nickname: string;
-  settled: boolean;
-  message: string;
-  invoice: string;
-  withMicro: boolean;
-}
-
 interface State {
   message: string;
   uri?: string;
-  messages?: Message[];
+  messages: Message[];
   boltheadCounter?: number;
 }
 
 class App extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { message: "" };
+    this.state = { message: "", messages: [] };
   }
 
   componentDidMount() {
     // this._getUri();
-    backend.onUpdateBoltheadCounter((c)=>this.setState({boltheadCounter: c}));
+    backend.onUpdateBoltheadCounter((c) => this.setState({ boltheadCounter: c }));
+    backend.onNewMessage((msg: Message) =>
+      this.setState({ messages: [...this.state.messages, msg] }));
     micro.init();
   }
 
@@ -55,19 +50,26 @@ class App extends Component<Props, State> {
 
   _handleAddMessage = async e => {
     e.preventDefault();
-    const memo = this.state.message.substr(0, 100);
-    if (memo.trim() == "") {
-      return;
-    }
-    let invoice = "";
-    try {
-      invoice = await backend.getInvoice(memo);
-    } catch (err) {
-      console.error(err);
-      return;
-    }
+    backend.newMessage({ 
+      nickname: moniker,
+      settled: false,
+      message: this.state.message,
+      invoice: "",
+      withMicro: false
+    });
+    // const memo = this.state.message.substr(0, 100);
+    // if (memo.trim() == "") {
+    //   return;
+    // }
+    // let invoice = "";
+    // try {
+    //   invoice = await backend.getInvoice(memo);
+    // } catch (err) {
+    //   console.error(err);
+    //   return;
+    // }
 
-    this.setState({ message: "" });
+    // this.setState({ message: "" });
   };
 
   render() {
@@ -119,16 +121,16 @@ class App extends Component<Props, State> {
                         <QRCode value={this.state.uri || ""} />
                       </span>
                     ) : (
-                      ""
-                    )}
+                        ""
+                      )}
                     {m.nickname == moniker && m.withMicro && !m.settled ? (
                       <span>
                         <br />
                         Settling payment with micro
                       </span>
                     ) : (
-                      ""
-                    )}
+                        ""
+                      )}
                   </p>
                 ))}
             </div>
