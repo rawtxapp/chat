@@ -40,7 +40,7 @@ class App extends Component<Props, State> {
     backend.onUpdateBoltheadCounter((c) => this.setState({ boltheadCounter: c }));
     backend.onNewMessage((msg: Message) =>
       this.setState({ messages: [...this.state.messages, msg] }));
-    backend.onInitialMessages((msg:Message[])=> this.setState({messages:msg}));
+    backend.onInitialMessages((msg: Message[]) => this.setState({ messages: msg }));
     micro.init();
   }
 
@@ -51,7 +51,7 @@ class App extends Component<Props, State> {
 
   _handleAddMessage = async e => {
     e.preventDefault();
-    backend.newMessage({ 
+    backend.newMessage({
       nickname: moniker,
       settled: false,
       message: this.state.message,
@@ -104,34 +104,36 @@ class App extends Component<Props, State> {
               {this.state.messages &&
                 this.state.messages.map((m, i) => (
                   <p key={i}>
-                    <b>{m.nickname}: </b>
-                    {m.settled ? m.message : <i>Awaiting payment</i>}
-                    {m.nickname == moniker && !m.settled && !m.withMicro ? (
-                      <span>
-                        <br />
-                        <b>Your payment request:</b>
-                        <br />
-                        <a href={"lightning:" + m.invoice}>{m.invoice}</a>
-                        <br />
-                        <QRCode value={m.invoice} size={256} />
-                        <br />
-                        <b>The node's address is:</b>
-                        <br />
-                        {this.state.uri}
-                        <br />
-                        <QRCode value={this.state.uri || ""} />
+                    <div><b>{m.nickname}</b></div>
+                    <div className="pa3 ma1 ml0 mr0 br4 message-container">
+                      {m.settled ? m.message : <i>Awaiting payment...</i>}
+                      {m.nickname == moniker && !m.settled && !m.withMicro ? (
+                        <span>
+                          <br />
+                          <b>Your payment request:</b>
+                          <br />
+                          <a href={"lightning:" + m.invoice}>{m.invoice}</a>
+                          <br />
+                          <QRCode value={m.invoice} size={256} />
+                          <br />
+                          <b>The node's address is:</b>
+                          <br />
+                          {this.state.uri}
+                          <br />
+                          <QRCode value={this.state.uri || ""} />
+                        </span>
+                      ) : (
+                          ""
+                        )}
+                      {m.nickname == moniker && m.withMicro && !m.settled ? (
+                        <span>
+                          <br />
+                          Settling payment with micro
                       </span>
-                    ) : (
-                        ""
-                      )}
-                    {m.nickname == moniker && m.withMicro && !m.settled ? (
-                      <span>
-                        <br />
-                        Settling payment with micro
-                      </span>
-                    ) : (
-                        ""
-                      )}
+                      ) : (
+                          ""
+                        )}
+                    </div>
                   </p>
                 ))}
             </div>
