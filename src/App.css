@@ -39,6 +39,7 @@
 
 .App-moniker {
   border-bottom: 1px solid rgba(0,0,0,0.1);
+  flex: 1;
 }
 
 .message-form {
