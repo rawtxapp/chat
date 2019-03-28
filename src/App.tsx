@@ -52,6 +52,7 @@ class App extends Component<Props, State> {
   _handleAddMessage = async e => {
     e.preventDefault();
     backend.newMessage({
+      id: -1, // doesn't matter, backend will set it.
       nickname: moniker,
       settled: false,
       message: this.state.message,
