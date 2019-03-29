@@ -41,13 +41,9 @@ class App extends Component<Props, State> {
     backend.onNewMessage((msg: Message) =>
       this.setState({ messages: [...this.state.messages, msg] }));
     backend.onInitialMessages((msg: Message[]) => this.setState({ messages: msg }));
+    backend.onNodeAddress((u) => this.setState({ uri: u }));
     micro.init();
   }
-
-  _getUri = async () => {
-    const uri = await backend.getUri();
-    this.setState({ uri });
-  };
 
   _handleAddMessage = async e => {
     e.preventDefault();
@@ -109,9 +105,9 @@ class App extends Component<Props, State> {
                           </div>
                           <br />
                           <b>rawtx chat node's address</b>
-                          {this.state.uri}
                           <br />
                           <QRCode value={this.state.uri || ""} />
+                          <div>{this.state.uri}</div>
                         </span>
                       ) : (
                           ""

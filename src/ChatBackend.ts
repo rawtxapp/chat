@@ -37,6 +37,10 @@ export default class ChatBackend {
     this.socket.on('initialMessages', fn);
   }
 
+  onNodeAddress = (fn:Function) => {
+    this.socket.on('nodeAddress', fn);
+  }
+
   newMessage = (msg: Message) => {
     this.socket.emit('newMessage', msg);
   }
