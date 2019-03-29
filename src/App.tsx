@@ -59,19 +59,7 @@ class App extends Component<Props, State> {
       invoice: "",
       withMicro: false
     });
-    // const memo = this.state.message.substr(0, 100);
-    // if (memo.trim() == "") {
-    //   return;
-    // }
-    // let invoice = "";
-    // try {
-    //   invoice = await backend.getInvoice(memo);
-    // } catch (err) {
-    //   console.error(err);
-    //   return;
-    // }
-
-    // this.setState({ message: "" });
+    this.setState({message:""});
   };
 
   render() {
