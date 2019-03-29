@@ -59,7 +59,7 @@ class App extends Component<Props, State> {
       invoice: "",
       withMicro: false
     });
-    this.setState({message:""});
+    this.setState({ message: "" });
   };
 
   render() {
@@ -99,14 +99,16 @@ class App extends Component<Props, State> {
                       {m.nickname == moniker && !m.settled && !m.withMicro ? (
                         <span>
                           <br />
-                          <b>Your payment request:</b>
-                          <br />
-                          <a href={"lightning:" + m.invoice}>{m.invoice}</a>
-                          <br />
+                          <div className="mt2">
+                            <b>Your payment request</b>
+                          </div>
                           <QRCode value={m.invoice} size={256} />
                           <br />
-                          <b>The node's address is:</b>
+                          <div className="mv1">
+                            <a href={"lightning:" + m.invoice} className="link">{m.invoice}</a>
+                          </div>
                           <br />
+                          <b>rawtx chat node's address</b>
                           {this.state.uri}
                           <br />
                           <QRCode value={this.state.uri || ""} />
