@@ -20,7 +20,7 @@ export default class ChatBackend {
     return this.endpoint + "/" + path;
   };
 
-  getInvoice = async (memo:string) => {
+  getInvoice = async (memo: string) => {
     const response = await fetch(this.url("invoice/" + memo));
     return response.json();
   };
@@ -29,19 +29,23 @@ export default class ChatBackend {
     this.socket.on('updateBoltheadCounter', fn);
   }
 
-  onNewMessage = (fn:Function) => {
+  onSatoshiCounter = (fn: Function) => {
+    this.socket.on('satoshiCounter', fn);
+  }
+
+  onNewMessage = (fn: Function) => {
     this.socket.on('newMessage', fn);
   }
 
-  onInitialMessages = (fn:Function) => {
+  onInitialMessages = (fn: Function) => {
     this.socket.on('initialMessages', fn);
   }
 
-  onSettled = (fn:Function) => {
+  onSettled = (fn: Function) => {
     this.socket.on('settled', fn);
   }
 
-  onNodeAddress = (fn:Function) => {
+  onNodeAddress = (fn: Function) => {
     this.socket.on('nodeAddress', fn);
   }
 

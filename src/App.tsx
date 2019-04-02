@@ -27,6 +27,7 @@ interface State {
   uri?: string;
   messages: Message[];
   boltheadCounter?: number;
+  satoshiCounter?: number;
 }
 
 class App extends Component<Props, State> {
@@ -43,7 +44,7 @@ class App extends Component<Props, State> {
     backend.onInitialMessages((msg: Message[]) => this.setState({ messages: msg }));
     backend.onNodeAddress((u) => this.setState({ uri: u }));
     backend.onSettled((id: number) => {
-      if(!id) return;
+      if (!id) return;
       const msgs = this.state.messages;
       for (let i of msgs) {
         if (i.id == id) {
@@ -53,6 +54,7 @@ class App extends Component<Props, State> {
       }
       this.setState({ messages: msgs });
     })
+    backend.onSatoshiCounter((c) => this.setState({ satoshiCounter: c }))
     micro.init();
   }
 
@@ -92,7 +94,7 @@ class App extends Component<Props, State> {
             </div>
             <div className="counter pa1 ml0">
               <div className="dot green-dot"></div>
-              <div className="ml2 logo-text f4 b green-text">0 satoshis spent</div>
+              <div className="ml2 logo-text f4 b green-text">{this.state.satoshiCounter || 0} satoshis spent</div>
             </div>
           </div>
           <div className="App-messages">
