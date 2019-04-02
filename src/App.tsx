@@ -42,6 +42,17 @@ class App extends Component<Props, State> {
       this.setState({ messages: [...this.state.messages, msg] }));
     backend.onInitialMessages((msg: Message[]) => this.setState({ messages: msg }));
     backend.onNodeAddress((u) => this.setState({ uri: u }));
+    backend.onSettled((id: number) => {
+      if(!id) return;
+      const msgs = this.state.messages;
+      for (let i of msgs) {
+        if (i.id == id) {
+          i.settled = true;
+          break;
+        }
+      }
+      this.setState({ messages: msgs });
+    })
     micro.init();
   }
 
