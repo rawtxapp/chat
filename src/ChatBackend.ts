@@ -11,7 +11,7 @@ export default class ChatBackend {
     ) {
       this.endpoint = "http://localhost:3001";
     } else {
-      this.endpoint = "https://chat-backend.rawtx.com:9090";
+      this.endpoint = "https://chat-backend.rawtx.com";
     }
     this.socket = io(this.endpoint);
   }
