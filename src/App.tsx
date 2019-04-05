@@ -89,7 +89,7 @@ class App extends Component<Props, State> {
               - lightning enabled chat app.
             </span>
             <span className="slogan-text f4 pt2 pl2 b">
-              10 satoshis per message.
+              10 satoshis per message (testnet).
             </span>
             <div className="slogan-text f4 pt2">
               Your nickname is: {moniker}
