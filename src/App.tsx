@@ -110,7 +110,7 @@ class App extends Component<Props, State> {
               {this.state.messages &&
                 this.state.messages.map((m, i) => (
                   <p key={i}>
-                    <div className="f4-l f5-m f6"><b>{m.nickname}</b></div>
+                    <div className="f5-ns f6"><b>{m.nickname}</b></div>
                     <div className="pa3-l pa2 ma1 ml0 mr0 br4 message-container f5-l f6-m f7">
                       {m.settled ? m.message : <i>Awaiting payment...</i>}
                       {m.nickname == moniker && !m.settled && !m.withMicro ? (
