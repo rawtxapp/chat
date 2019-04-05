@@ -46,6 +46,7 @@
   flex-direction: row;
   display: flex;
   flex: 1;
+  align-items: center;
 }
 
 .App-message-entry {
@@ -60,8 +61,6 @@
 }
 
 .App-submit-button input {
-  height: 40px;
-  font-size: 24px;
   background-color: #007bff;
   border-color: #007bff;
   border: 1px solid transparent;

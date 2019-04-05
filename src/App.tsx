@@ -158,10 +158,10 @@ class App extends Component<Props, State> {
                     this.setState({ message: event.target.value })
                   }
                   placeholder="Message..."
-                  className="pa3 ma2 w-100"
+                  className="pa3-l ma2-l w-100 f3-l pa2 ma1 f4"
                 />
               </div>
-              <div className="App-submit-button ma3">
+              <div className="App-submit-button ma3-l f3-l ma2 f4">
                 <input type="submit" value="Send" />
               </div>
             </div>
