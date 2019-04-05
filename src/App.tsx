@@ -139,7 +139,7 @@ class App extends Component<Props, State> {
             </div>
           </div>
         </div>
-        <div>
+        <div className="form-container">
           <form onSubmit={this._handleAddMessage}>
             <div className="message-form">
               <div className="App-message-entry">

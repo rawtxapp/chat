@@ -127,3 +127,7 @@
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+
+.form-container {
+  flex: 0 1 auto;
+}
