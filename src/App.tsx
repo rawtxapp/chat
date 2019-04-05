@@ -83,35 +83,35 @@ class App extends Component<Props, State> {
     return (
       <div className="App">
         <div className="App-container">
-          <div className="App-moniker pa3 sans-serif">
-            <span className="f3 sans-serif logo-text b">rawtx chat</span>
-            <span className="logo-text f4 pl2">
+          <div className="App-moniker pa3-l pa2 sans-serif">
+            <span className="f3-l f4-m f5 sans-serif logo-text b">rawtx chat</span>
+            <span className="logo-text f4-l f5-m f6 pl2">
               - lightning enabled chat app.
             </span>
-            <span className="slogan-text f4 pt2 pl2 b">
+            <span className="slogan-text f4-l f5-m f6 pt2 pl2 b">
               10 satoshis per message (testnet).
             </span>
-            <div className="slogan-text f4 pt2">
+            <div className="slogan-text f4-l f5-m f6 pt2">
               Your nickname is: {moniker}
             </div>
             <div className="counter ma1 mt2 pa1 pb0 ml0">
               <div className="dot"></div>
-              <div className="ml2 logo-text f4 b">
+              <div className="ml2 logo-text f4-l f5-m f6 b">
                 {this.state.boltheadCounter || 0} boltheads online right now
               </div>
             </div>
             <div className="counter pa1 ml0">
               <div className="dot green-dot"></div>
-              <div className="ml2 logo-text f4 b green-text">{this.state.satoshiCounter || 0} satoshis spent</div>
+              <div className="ml2 logo-text f4-l f5-m f6 b green-text">{this.state.satoshiCounter || 0} satoshis spent</div>
             </div>
           </div>
-          <div className="App-messages">
+          <div className="App-messages pa2 pb0">
             <div>
               {this.state.messages &&
                 this.state.messages.map((m, i) => (
                   <p key={i}>
-                    <div><b>{m.nickname}</b></div>
-                    <div className="pa3 ma1 ml0 mr0 br4 message-container">
+                    <div className="f4-l f5-m f6"><b>{m.nickname}</b></div>
+                    <div className="pa3-l pa2 ma1 ml0 mr0 br4 message-container f5-l f6-m f7">
                       {m.settled ? m.message : <i>Awaiting payment...</i>}
                       {m.nickname == moniker && !m.settled && !m.withMicro ? (
                         <span>

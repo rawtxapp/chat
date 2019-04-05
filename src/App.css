@@ -34,7 +34,6 @@
   flex: 20 1 auto;
   flex-direction: column-reverse;
   background-color: #f5f0f6;
-  padding: 20px;
   overflow-y: scroll;
 }
 
@@ -80,8 +79,8 @@
 
 .dot {
   background-color: #ef1062;
-  height: 0.8em;
-  width: 0.8em;
+  height: 0.6em;
+  width: 0.6em;
   border-radius: 1em;
   animation: light 0.5s infinite;
   animation-direction: alternate;
