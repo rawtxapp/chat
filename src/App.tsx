@@ -20,15 +20,13 @@ const micro = new Micro();
 
 const updateVh = () => {
   let vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', `${vh}px`);
-}
+  document.documentElement.style.setProperty("--vh", `${vh}px`);
+};
 
 updateVh();
-window.addEventListener('resize', updateVh);
+window.addEventListener("resize", updateVh);
 
-export interface Props {
-
-}
+export interface Props {}
 
 interface State {
   message: string;
@@ -46,11 +44,14 @@ class App extends Component<Props, State> {
 
   componentDidMount() {
     // this._getUri();
-    backend.onUpdateBoltheadCounter((c) => this.setState({ boltheadCounter: c }));
+    backend.onUpdateBoltheadCounter(c => this.setState({ boltheadCounter: c }));
     backend.onNewMessage((msg: Message) =>
-      this.setState({ messages: [...this.state.messages, msg] }));
-    backend.onInitialMessages((msg: Message[]) => this.setState({ messages: msg }));
-    backend.onNodeAddress((u) => this.setState({ uri: u }));
+      this.setState({ messages: [...this.state.messages, msg] })
+    );
+    backend.onInitialMessages((msg: Message[]) =>
+      this.setState({ messages: msg })
+    );
+    backend.onNodeAddress(u => this.setState({ uri: u }));
     backend.onSettled((id: number) => {
       if (!id) return;
       const msgs = this.state.messages;
@@ -61,8 +62,8 @@ class App extends Component<Props, State> {
         }
       }
       this.setState({ messages: msgs });
-    })
-    backend.onSatoshiCounter((c) => this.setState({ satoshiCounter: c }))
+    });
+    backend.onSatoshiCounter(c => this.setState({ satoshiCounter: c }));
     micro.init();
   }
 
@@ -74,7 +75,10 @@ class App extends Component<Props, State> {
       settled: false,
       message: this.state.message,
       invoice: "",
-      withMicro: false
+      withMicro: micro.canHandleWithMicro(10)
+    });
+    backend.onceMyNewMessage((newmsg: Message) => {
+      micro.handleWithMicro(newmsg.invoice, 10);
     });
     this.setState({ message: "" });
   };
@@ -84,7 +88,9 @@ class App extends Component<Props, State> {
       <div className="App">
         <div className="App-container">
           <div className="App-moniker pa3-l pa2 sans-serif">
-            <span className="f3-l f4-m f5 sans-serif logo-text b">rawtx chat</span>
+            <span className="f3-l f4-m f5 sans-serif logo-text b">
+              rawtx chat
+            </span>
             <span className="logo-text f4-l f5-m f6 pl2">
               - lightning enabled chat app.
             </span>
@@ -95,14 +101,16 @@ class App extends Component<Props, State> {
               Your nickname is: {moniker}
             </div>
             <div className="counter ma1 mt2 pa1 pb0 ml0">
-              <div className="dot"></div>
+              <div className="dot" />
               <div className="ml2 logo-text f4-l f5-m f6 b">
                 {this.state.boltheadCounter || 0} boltheads online right now
               </div>
             </div>
             <div className="counter pa1 ml0">
-              <div className="dot green-dot"></div>
-              <div className="ml2 logo-text f4-l f5-m f6 b green-text">{this.state.satoshiCounter || 0} satoshis spent</div>
+              <div className="dot green-dot" />
+              <div className="ml2 logo-text f4-l f5-m f6 b green-text">
+                {this.state.satoshiCounter || 0} satoshis spent
+              </div>
             </div>
           </div>
           <div className="App-messages pa2 pb0">
@@ -110,7 +118,9 @@ class App extends Component<Props, State> {
               {this.state.messages &&
                 this.state.messages.map((m, i) => (
                   <p key={i}>
-                    <div className="f5-ns f6"><b>{m.nickname}</b></div>
+                    <div className="f5-ns f6">
+                      <b>{m.nickname}</b>
+                    </div>
                     <div className="pa3-l pa2 ma1 ml0 mr0 br4 message-container f5-l f6-m f7">
                       {m.settled ? m.message : <i>Awaiting payment...</i>}
                       {m.nickname == moniker && !m.settled && !m.withMicro ? (
@@ -122,7 +132,9 @@ class App extends Component<Props, State> {
                           <QRCode value={m.invoice} size={256} />
                           <br />
                           <div className="mv1">
-                            <a href={"lightning:" + m.invoice} className="link">{m.invoice}</a>
+                            <a href={"lightning:" + m.invoice} className="link">
+                              {m.invoice}
+                            </a>
                           </div>
                           <br />
                           <b>rawtx chat node's address</b>
@@ -131,16 +143,16 @@ class App extends Component<Props, State> {
                           <div>{this.state.uri}</div>
                         </span>
                       ) : (
-                          ""
-                        )}
+                        ""
+                      )}
                       {m.nickname == moniker && m.withMicro && !m.settled ? (
                         <span>
                           <br />
                           Settling payment with micro
-                      </span>
+                        </span>
                       ) : (
-                          ""
-                        )}
+                        ""
+                      )}
                     </div>
                   </p>
                 ))}
